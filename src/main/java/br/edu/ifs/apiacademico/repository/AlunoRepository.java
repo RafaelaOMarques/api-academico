@@ -1,6 +1,8 @@
 package br.edu.ifs.apiacademico.repository;
 import br.edu.ifs.apiacademico.model.AlunoModel;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,14 +16,13 @@ public interface AlunoRepository extends JpaRepository<AlunoModel, Integer> {
     //SELECTS
     List<AlunoModel> findAll();
 
-    Optional<AlunoModel> findByMatricula(int matricula);
+    Optional<AlunoModel> findById(Integer id);
 
     List<AlunoModel> findByNomeContaining(String nome);
 
     List<AlunoModel> findByOrderByNomeDesc();
 
     List<AlunoModel> findByOrderByNomeAsc();
-
 
     List<AlunoModel> findByNomeOrderByNomeAsc(String nome);
 
@@ -31,12 +32,22 @@ public interface AlunoRepository extends JpaRepository<AlunoModel, Integer> {
 
     List<AlunoModel> findByOrderByDataNascimentoDesc();
 
+    @Query("SELECT aluno FROM AlunoModel aluno " +
+            "JOIN aluno.matriculas matricula " +
+            "WHERE matricula.matricula = :matricula")
+    Optional<AlunoModel> findByMatricula(@Param("matricula") int matricula);
+
     //DELETES
-    Boolean existsByMatricula(int matricula);
     Boolean existsByCpf(String cpf);
-    void deleteByMatricula(int matricula);
     void deleteByCpf(String cpf);
 
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM AlunoModel aluno " +
+            "WHERE EXISTS (SELECT 1 FROM aluno.matriculas matricula " +
+            "               WHERE matricula.matricula = :matricula)")
+    void deleteByMatricula(@Param("matricula") int matricula);
 
     @Query(value = "SELECT * FROM aluno a " + "WHERE a.email = :email", nativeQuery = true)
     List<AlunoModel> ObterAlunoPorEmail(@Param("email") String email);

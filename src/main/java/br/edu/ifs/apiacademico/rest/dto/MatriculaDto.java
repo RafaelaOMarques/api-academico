@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MatriculaDto {
     private int id;
+    private int matricula;
+    private boolean matriculaAtiva;
     private int idAluno;
-    private int idTurma;
 }

@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.edu.ifs.apiacademico.util.GeradorIdUtil.gerarIdentificadorUnico;
+import static br.edu.ifs.apiacademico.util.GerardorMatriculaUtil.gerarMatricula;
+
 @RestController
 @RequestMapping("/turma")
 public class TurmaController {
@@ -44,21 +47,21 @@ public class TurmaController {
         if (br.hasErrors()) {
             throw new ConstraintException(br.getAllErrors().get(0).getDefaultMessage());
         }
+
+        int ordemTurma = gerarIdentificadorUnico();
+        turmaModel.setTurmaId(ordemTurma);
+
         TurmaDto turmaDto = turmaService.CadastrarNovaTurma(turmaModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(turmaDto);
     }
 
-    @GetMapping("/professor/{professorId}")
-    public ResponseEntity<List<TurmaDto>> ListarTurmasByProfessorId(@PathVariable("professorId") int professorId) {
-        List<TurmaDto> turmaList = turmaService.ListarTurmasByProfessorId(professorId);
-        return ResponseEntity.ok(turmaList);
-    }
 
     @GetMapping("/disciplina/{disciplinaId}")
     public ResponseEntity<List<TurmaDto>> ListarTurmasByDisciplinasId(@PathVariable("disciplinaId") int disciplinaId) {
         List<TurmaDto> turmaList = turmaService.ListarTurmasByDisciplinasId(disciplinaId);
         return ResponseEntity.ok(turmaList);
     }
+
 }
 
 

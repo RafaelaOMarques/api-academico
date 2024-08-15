@@ -1,6 +1,8 @@
 package br.edu.ifs.apiacademico.rest.controller;
 import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.model.ProfessorModel;
+import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasAlunosDto;
+import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apiacademico.rest.dto.ProfessorDto;
 import br.edu.ifs.apiacademico.service.ProfessorService;
 import br.edu.ifs.apiacademico.util.ValidadorCpfUtil;
@@ -25,10 +27,17 @@ public class ProfessorController {
 //ENDPOINT /PROFESSOR
 
     @GetMapping
-    public ResponseEntity<List<ProfessorDto>> ObterTodosProfessores() {
-        List<ProfessorDto> professorDtoList = professorService.ObterTodos();
-        return ResponseEntity.ok(professorDtoList);
+    public ResponseEntity<List<ProfessorDisciplinasDto>> ObterTodosProfessoresComDisciplinas() {
+        List<ProfessorDisciplinasDto> professorList = professorService.ObterProfessoresDisciplinas();
+        return ResponseEntity.ok(professorList);
     }
+
+    @GetMapping("/disciplinasalunos")
+    public ResponseEntity<List<ProfessorDisciplinasAlunosDto>> ObterTodosProfessoresDisciplinasComAlunos() {
+        List<ProfessorDisciplinasAlunosDto> professorList = professorService.ObterProfessoresDisciplinasAlunos();
+        return ResponseEntity.ok(professorList);
+    }
+
 
     @PostMapping
     public ResponseEntity<ProfessorDto> CadastrarNovoProfessor(@Valid @RequestBody ProfessorModel professorModel, BindingResult br) {
@@ -47,7 +56,6 @@ public class ProfessorController {
     }
 
     //ENDPOINT /PROFESSOR/NOMES
-
     @GetMapping("/nomes/{nome}")
     public ResponseEntity<List<ProfessorDto>> ObterProfessoresPorNome(@PathVariable("nome") String nome) {
         List<ProfessorDto> professorDtoList = professorService.ObterProfessoresPorNome(nome);
@@ -101,6 +109,7 @@ public class ProfessorController {
         professorService.DeletarPorMatricula(matricula);
         return ResponseEntity.noContent().build();
     }
+
     
     //ENDPOINT /PROFESSOR/EMAIL/{email}
 

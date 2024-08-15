@@ -2,8 +2,10 @@ package br.edu.ifs.apiacademico.rest.controller;
 
 import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.model.DisciplinaModel;
+import br.edu.ifs.apiacademico.model.MatriculaModel;
 import br.edu.ifs.apiacademico.rest.dto.AlunoDto;
 import br.edu.ifs.apiacademico.rest.dto.DisciplinaDto;
+import br.edu.ifs.apiacademico.rest.dto.MatriculaDto;
 import br.edu.ifs.apiacademico.service.DisciplinaService;
 import br.edu.ifs.apiacademico.util.ValidadorCpfUtil;
 import jakarta.validation.Valid;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static br.edu.ifs.apiacademico.util.GeradorIdUtil.gerarIdentificadorUnico;
 import static br.edu.ifs.apiacademico.util.GerardorMatriculaUtil.gerarMatricula;
 
 @RestController
@@ -49,9 +52,14 @@ public class DisciplinaController {
         if (br.hasErrors()) {
             throw new ConstraintException(br.getAllErrors().get(0).getDefaultMessage());
         }
+
+        int ordemDisciplina = gerarIdentificadorUnico();
+        disciplinaModel.setDisciplinaId(ordemDisciplina);
+
         DisciplinaDto disciplinaDto = disciplinaService.CadastrarNovaDisciplina(disciplinaModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(disciplinaDto);
     }
+
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<DisciplinaDto> ObterDisciplinasPorNome(@PathVariable("nome") String nome) {
@@ -83,8 +91,11 @@ public class DisciplinaController {
         return ResponseEntity.status(HttpStatus.OK).body(disciplinaDtoList);
     }
 
-
-
+    @GetMapping("/professor/{professorId}")
+    public ResponseEntity<List<DisciplinaDto>> ListarDisciplinasByProfessorId(@PathVariable("professorId") int professorId) {
+        List<DisciplinaDto> disciplinaList = disciplinaService.ListarDisciplinaByProfessorId(professorId);
+        return ResponseEntity.ok(disciplinaList);
+    }
 }
 
 

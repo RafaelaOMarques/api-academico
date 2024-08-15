@@ -1,6 +1,7 @@
 package br.edu.ifs.apiacademico.repository;
 
 import br.edu.ifs.apiacademico.model.DisciplinaModel;
+import br.edu.ifs.apiacademico.model.MatriculaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,6 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
     List<DisciplinaModel> findAll();
     Optional<DisciplinaModel> findById(int id);
 
-//    Boolean existsById(int id);
-
     Optional<DisciplinaModel> findByNomeContaining(String nome);
 
     List<DisciplinaModel> findByOrderByNomeAsc();
@@ -25,7 +24,10 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
 
     List<DisciplinaModel> findByOrderByNumeroCreditosAsc();
 
-    void deleteById(int id);
 
+    List<DisciplinaModel> findByProfessorId(int professorId);
+
+
+    void deleteById(int id);
 
 }

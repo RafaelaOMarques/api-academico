@@ -1,9 +1,12 @@
 package br.edu.ifs.apiacademico.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,7 +27,7 @@ public class AlunoModel {
     @Pattern(regexp = "^[a-z0-9]+(?:\\.[a-z0-9]+)*@[a-z0-9]+(?:\\.[a-z]+)+$", message = "Email inválido")
     private String email;
 
-    @Column(name = "dataNascimento", nullable = false)
+    @Column(name = "data_nascimento", nullable = false)
     @Temporal(TemporalType.DATE)
     @Past(message = "A data de nascimento deve ser anterior à data atual")
     private Date dataNascimento;
@@ -36,6 +39,14 @@ public class AlunoModel {
     @Column(name = "apelido", length = 255, nullable = true)
     private String apelido;
 
-    @Column(name = "matricula", nullable = false, unique = true)
-    private int matricula;
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<MatriculaModel> matriculas;
+
+    @ManyToOne
+    @JoinColumn(name = "id_turma")
+    @JsonBackReference
+    private TurmaModel turma;
+
+
 }

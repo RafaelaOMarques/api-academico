@@ -39,16 +39,4 @@ public interface ProfessorRepository extends JpaRepository<ProfessorModel, Integ
     void deleteByMatricula(int matricula);
     void deleteByCpf(String cpf);
 
-
-    @Query(value = """
-            select	d.nome              as disciplina
-            	,	d.numeroCreditos    as creditos
-            	from turma t
-            	inner join disciplina d
-            		on(t.idDisciplina = d.id)
-            	inner join professor p
-            		on(t.idProfessor = p.id)
-            	where p.matricula = :matricula
-            """, nativeQuery = true)
-    List<ProfessorDisciplinaProjection> ObterDisciplinasLecionadas(@Param("matricula") int matricula);
 }

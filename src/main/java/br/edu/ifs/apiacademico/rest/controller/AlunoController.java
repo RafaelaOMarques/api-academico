@@ -2,8 +2,10 @@ package br.edu.ifs.apiacademico.rest.controller;
 
 import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.model.AlunoModel;
+import br.edu.ifs.apiacademico.model.MatriculaModel;
 import br.edu.ifs.apiacademico.rest.dto.AlunoDto;
 import br.edu.ifs.apiacademico.service.AlunoService;
+import br.edu.ifs.apiacademico.service.MatriculaService;
 import br.edu.ifs.apiacademico.util.ValidadorCpfUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
+
+    @Autowired
+    private MatriculaService matriculaService;
+
 
     //ENDPOINT /ALUNO
 
@@ -42,9 +48,8 @@ public class AlunoController {
             return ResponseEntity.badRequest().body(null);
         }
 
-        int matricula = gerarMatricula();
-        alunoModel.setMatricula(matricula);
         AlunoDto alunoDto = alunoService.CadastrarNovoAluno(alunoModel);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoDto);
     }
 
@@ -121,6 +126,4 @@ public class AlunoController {
         List<AlunoDto> alunoDtoList = alunoService.ListarAlunosPorDataNascimentoDescrescente();
         return ResponseEntity.ok(alunoDtoList);
     }
-
-
 }

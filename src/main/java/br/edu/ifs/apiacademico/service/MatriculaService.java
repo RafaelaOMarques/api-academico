@@ -1,17 +1,24 @@
 package br.edu.ifs.apiacademico.service;
 
+import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.exceptions.DataIntegrityException;
 import br.edu.ifs.apiacademico.exceptions.ObjectNotFoundException;
 import br.edu.ifs.apiacademico.model.MatriculaModel;
+import br.edu.ifs.apiacademico.model.TurmaModel;
 import br.edu.ifs.apiacademico.repository.MatriculaRepository;
 import br.edu.ifs.apiacademico.rest.dto.MatriculaDto;
+import br.edu.ifs.apiacademico.rest.dto.TurmaDto;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static br.edu.ifs.apiacademico.util.GerardorMatriculaUtil.gerarMatricula;
 
 /**
  * Classe responsável por prover os serviços relacionados a operações de Matricula.
@@ -25,13 +32,18 @@ public class MatriculaService {
     @Autowired
     private ModelMapper modelMapper;
 
-    /**
-     * Obtém um aluno pelo número de matrícula.
-     *
-     * @param matricula O número de matrícula do aluno a ser obtido.
-     * @throws ObjectNotFoundException Caso a matricula não seja encontrado no banco de dados.
-     */
-    public MatriculaDto ObterPorIdAluno(int idAluno) {
+    public List<MatriculaDto> ObterTodas() {
+        List<MatriculaModel> matriculaList = matriculaRepository.findAll();
+        return matriculaList.stream()
+                .map(matricula -> modelMapper.map(matricula, MatriculaDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<MatriculaModel> findById(int id){
+        return matriculaRepository.findById(id);
+    }
+
+    public MatriculaDto ObterMatriculaPorIdAluno(int idAluno) {
         Optional<MatriculaModel> matriculaOptional = matriculaRepository.findByIdAluno(idAluno);
         MatriculaModel matriculaModel = matriculaOptional.orElseThrow(() ->
                 new ObjectNotFoundException("ERRO: Matricula não encontrada! IdAluno: " + idAluno));
@@ -39,29 +51,48 @@ public class MatriculaService {
         return modelMapper.map(matriculaModel, MatriculaDto.class);
     }
 
-    /**
-     * Salva uma nova matricula de aluno no banco de dados.
-     *
-     * @param matriculaModel O objeto MatriculaModel a ser salvo.
-     * @return Um objeto MatriculaDto correspondente a nova matricula de aluno salva.
-     * @throws DataIntegrityException Caso o aluno já esteja cadastrado no banco de dados.
-     */
+
+    public List<MatriculaDto> ListarMatriculaByAlunoId(int alunoId) {
+        List<MatriculaModel> matriculaList = matriculaRepository.findByAlunoId(alunoId);
+        return matriculaList.stream()
+                .map(matricula -> modelMapper.map(matricula, MatriculaDto.class))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    public MatriculaDto Salvar(MatriculaModel matriculaModel) {
+    public MatriculaDto GerarMatricula(MatriculaModel matriculaModel) {
+        if (matriculaModel.getAluno() == null) {
+            throw new ConstraintException("Aluno não encontrado. Matrícula não pode ser gerada sem um aluno associado.");
+        }
+
         try {
+            matriculaModel.setMatriculaAtiva(true);
             matriculaRepository.save(matriculaModel);
             return modelMapper.map(matriculaModel, MatriculaDto.class);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("ERRO: Aluno já cadastrado!");
+            throw new DataIntegrityException("ERRO: Para gerar uma matricula é necessário informar no body um aluno cadastrado!");
         }
     }
 
-    /**
-     * Deleta uma matricula de aluno do banco de dados pelo número de matrícula.
-     *
-     * @param matricula O id de matrícula do aluno a ser deletado.
-     * @throws DataIntegrityException Caso a matrícula do aluno não seja encontrada no banco de dados.
-     */
+
+    @Transactional
+    public MatriculaDto AtualizarMatricula(int idMatricula, MatriculaModel matriculaModel){
+        Optional<MatriculaModel> matriculaExistente = matriculaRepository.findMatriculaModelByMatricula(idMatricula);
+        MatriculaModel matriculaAtualizada = matriculaExistente.orElseThrow(() ->
+                new ObjectNotFoundException("ERRO: Matrícula não encontrada! Matrícula: " + idMatricula));
+
+        matriculaAtualizada.setMatriculaAtiva(matriculaModel.isMatriculaAtiva());
+        if (matriculaModel.getAluno() != null) {
+            matriculaAtualizada.setAluno(matriculaModel.getAluno());
+        }
+
+        MatriculaModel matriculaSalva = matriculaRepository.save(matriculaAtualizada);
+        MatriculaDto matriculaDto = modelMapper.map(matriculaSalva, MatriculaDto.class);
+        matriculaDto.setIdAluno(matriculaSalva.getAluno().getId());
+
+        return matriculaDto;
+    }
+
     @Transactional
     public void Deletar(int id) {
         if (matriculaRepository.existsById(id)) {
