@@ -3,8 +3,7 @@ import br.edu.ifs.apiacademico.exceptions.DataIntegrityException;
 import br.edu.ifs.apiacademico.exceptions.ObjectNotFoundException;
 import br.edu.ifs.apiacademico.model.ProfessorModel;
 import br.edu.ifs.apiacademico.repository.ProfessorRepository;
-import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasDto;
-import br.edu.ifs.apiacademico.rest.dto.ProfessorDto;
+import br.edu.ifs.apiacademico.rest.dto.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,48 @@ public class ProfessorService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ProfessorDisciplinasDto> ObterTodos() {
+    public List<ProfessorDisciplinasDto> ObterProfessoresDisciplinas() {
         List<ProfessorModel> professorList = professorRepository.findAll();
         return professorList.stream()
             .map(professor -> modelMapper.map(professor, ProfessorDisciplinasDto.class))
             .collect(Collectors.toList());
+    }
+
+//    public List<ProfessorDisciplinasAlunosDto> ObterProfessoresDisciplinasAlunos() {
+//        List<ProfessorModel> professorList = professorRepository.findAll();
+//        return professorList.stream()
+//                .map(professor -> modelMapper.map(professor, ProfessorDisciplinasAlunosDto.class))
+//                .collect(Collectors.toList());
+//    }
+
+    public List<ProfessorDisciplinasAlunosDto> ObterProfessoresDisciplinasAlunos() {
+        List<ProfessorModel> professorList = professorRepository.findAll();
+
+        return professorList.stream()
+                .map(professor -> {
+                    ProfessorDisciplinasAlunosDto dto = new ProfessorDisciplinasAlunosDto();
+                    dto.setProfessor(modelMapper.map(professor, ProfessorDto.class));
+
+                    List<DisciplinasComAlunosDto> disciplinasComAlunosDtos = professor.getDisciplinas().stream()
+                            .map(disciplina -> {
+                                DisciplinasComAlunosDto disciplinaDto = new DisciplinasComAlunosDto();
+                                disciplinaDto.setDisciplina(modelMapper.map(disciplina, DisciplinaDto.class));
+
+                                List<AlunoDto> alunosDto = disciplina.getTurmas().stream()
+                                        .flatMap(turma -> turma.getAlunos().stream())
+                                        .distinct() // Evita alunos duplicados se estiverem em mais de uma turma da disciplina
+                                        .map(aluno -> modelMapper.map(aluno, AlunoDto.class))
+                                        .collect(Collectors.toList());
+
+                                disciplinaDto.setAlunos(alunosDto);
+                                return disciplinaDto;
+                            })
+                            .collect(Collectors.toList());
+
+                    dto.setDisciplinas(disciplinasComAlunosDtos);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     public ProfessorDto ObterPorMatricula(int matricula) {

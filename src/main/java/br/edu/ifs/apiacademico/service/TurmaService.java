@@ -4,6 +4,7 @@ import br.edu.ifs.apiacademico.exceptions.DataIntegrityException;
 import br.edu.ifs.apiacademico.exceptions.ObjectNotFoundException;
 import br.edu.ifs.apiacademico.model.AlunoModel;
 import br.edu.ifs.apiacademico.model.DisciplinaModel;
+import br.edu.ifs.apiacademico.model.ProfessorModel;
 import br.edu.ifs.apiacademico.model.TurmaModel;
 import br.edu.ifs.apiacademico.repository.AlunoRepository;
 import br.edu.ifs.apiacademico.repository.DisciplinaRepository;
@@ -65,7 +66,16 @@ public class TurmaService {
 
     @Transactional
     public TurmaDto CadastrarNovaTurma(TurmaModel turma) {
+        DisciplinaModel disciplina = disciplinaRepository.findById(turma.getDisciplina().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Disciplina não encontrada"));
+        turma.setDisciplina(disciplina);
+
+//        ProfessorModel professor = professorRepository.findById(turma.getProfessor().getId())
+//                .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado"));
+//        turma.setProfessor(professor);
+
         List<AlunoModel> alunosCadastrados = new ArrayList<>();
+
         for (AlunoModel aluno : turma.getAlunos()){
             AlunoModel alunoCadastrado = alunoRepository.findById(aluno.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
@@ -79,6 +89,25 @@ public class TurmaService {
             throw new DataIntegrityException("ERRO: Verificar requisição sem todos atributos necessários!");
         }
     }
+
+//    public TurmaDto createTurma(TurmaCreateDto turmaCreateDto) {
+//        TurmaModel turma = new TurmaModel();
+//        turma.setNome(turmaCreateDto.getNome());
+//
+//        DisciplinaModel disciplina = disciplinaRepository.findById(turmaCreateDto.getDisciplinaId())
+//                .orElseThrow(() -> new EntityNotFoundException("Disciplina não encontrada"));
+//        turma.setDisciplina(disciplina);
+//
+//        ProfessorModel professor = professorRepository.findById(turmaCreateDto.getProfessorId())
+//                .orElseThrow(() -> new EntityNotFoundException("Professor não encontrado"));
+//        turma.setProfessor(professor);
+//
+//        List<AlunoModel> alunos = alunoRepository.findAllById(turmaCreateDto.getAlunoIds());
+//        turma.setAlunos(alunos);
+//
+//        turma = turmaRepository.save(turma);
+//        return modelMapper.map(turma, TurmaDto.class);
+//    }
 
     @Transactional
     public void DeletarTurmaPorId(int id) {

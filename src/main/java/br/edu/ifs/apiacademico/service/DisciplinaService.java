@@ -47,6 +47,7 @@ public class DisciplinaService {
         if (disciplinaModel.getProfessor() == null) {
             throw new ConstraintException("Professor não encontrado. Disciplina não pode ser cadastrada sem um professor associado.");
         }
+
         try {
             disciplinaRepository.save(disciplinaModel);
             return modelMapper.map(disciplinaModel, DisciplinaDto.class);

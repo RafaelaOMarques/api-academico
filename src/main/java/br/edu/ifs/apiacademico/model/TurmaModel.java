@@ -25,26 +25,27 @@ public class TurmaModel {
     @Column(name = "data_fim", nullable = false)
     private Date dataFim;
 
-//    @OneToOne
-//    @JoinColumn(name = "id_professor", nullable = false)
-//    private ProfessorModel professor;
-
     @ManyToOne
     @JoinColumn(name = "id_disciplina", nullable = false)
     @JsonBackReference
     private DisciplinaModel disciplina;
 
-    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<AlunoModel> alunos;
-
-//    @OneToMany
-//    @JoinColumn(name = "id_aluno", nullable = false)
-//    @JsonBackReference
+//    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+//    @JsonManagedReference
 //    private List<AlunoModel> alunos;
 
 //    @ManyToOne
-//    @JoinColumn(name = "professor_id")
+//    @JoinColumn(name = "id_professor", nullable = false)
 //    private ProfessorModel professor;
 
+    @ManyToMany
+    @JoinTable(
+    name = "turma_aluno",
+    joinColumns = @JoinColumn(name = "turma_id"),
+    inverseJoinColumns = @JoinColumn(name = "aluno_id")
+    )
+    private List<AlunoModel> alunos;
+//
+//    @ManyToMany(mappedBy = "alunos")
+//    private List<TurmaModel> turmas;
 }

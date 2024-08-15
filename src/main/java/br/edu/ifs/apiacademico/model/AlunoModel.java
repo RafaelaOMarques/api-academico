@@ -48,8 +48,8 @@ public class AlunoModel {
     @JsonBackReference
     private TurmaModel turma;
 
-//    @ManyToMany(mappedBy = "alunos", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<TurmaModel> turma;
+//    @ManyToMany(mappedBy = "alunos")
+//    private List<DisciplinaModel> disciplinas;
+
 
 }

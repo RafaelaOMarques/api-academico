@@ -15,10 +15,10 @@ import java.util.List;
 public class TurmaDto {
     private int id;
     private int turmaId;
-    private Date dataInicio;
-    private Date dataFim;
+//    private Date dataInicio;
+//    private Date dataFim;
 //    private String nomeProfessor;
-    private DisciplinaModel disciplina;
-    private List<AlunoModel> alunos;
+    private DisciplinaDto disciplina;
+    private List<AlunoDto> alunos;
 
 }

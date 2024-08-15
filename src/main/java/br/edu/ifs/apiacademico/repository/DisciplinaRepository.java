@@ -29,5 +29,6 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
     void deleteById(int id);
 
     List<DisciplinaModel> findByProfessorId(int professorId);
+//    List<DisciplinaModel> findByAlunoId(int alunoId);
 
 }

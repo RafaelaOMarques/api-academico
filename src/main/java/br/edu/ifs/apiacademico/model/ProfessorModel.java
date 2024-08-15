@@ -47,8 +47,8 @@ public class ProfessorModel {
     @JsonManagedReference
     private List<DisciplinaModel> disciplinas;
 
-
+//
 //    @OneToMany(mappedBy = "professor")
-//    private Set<TurmaModel> turmas;
+//    private List<TurmaModel> turmas;
 
 }

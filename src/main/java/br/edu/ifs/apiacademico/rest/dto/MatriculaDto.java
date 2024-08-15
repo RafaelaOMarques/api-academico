@@ -15,5 +15,4 @@ public class MatriculaDto {
     private int matricula;
     private boolean matriculaAtiva;
     private int idAluno;
-    private String nomeAluno;
 }

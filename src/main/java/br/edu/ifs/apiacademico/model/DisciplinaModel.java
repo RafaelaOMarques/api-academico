@@ -31,16 +31,19 @@ public class DisciplinaModel {
 //    private List<TurmaModel> turmas;
 
 
-//    @ManyToOne
-//    @JoinColumn(name = "id_professor")
-//    private ProfessorModel professor;
-
     @ManyToOne
     @JoinColumn(name = "id_professor", nullable = false)
     @JsonBackReference
     private ProfessorModel professor;
 
+//    @ManyToMany
+//    @JoinTable(
+//    name = "disciplina_aluno",
+//    joinColumns = @JoinColumn(name = "id_disciplina"),
+//    inverseJoinColumns = @JoinColumn(name = "id_aluno")
+//    )
+//    private List<AlunoModel> alunos;
 
-//    @OneToMany(mappedBy = "disciplina")
-//    private Set<TurmaModel> turmas;
+    @OneToMany(mappedBy = "disciplina")
+    private List<TurmaModel> turmas;
 }

@@ -1,6 +1,7 @@
 package br.edu.ifs.apiacademico.rest.controller;
 import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.model.ProfessorModel;
+import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasAlunosDto;
 import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apiacademico.rest.dto.ProfessorDto;
 import br.edu.ifs.apiacademico.service.ProfessorService;
@@ -27,9 +28,16 @@ public class ProfessorController {
 
     @GetMapping
     public ResponseEntity<List<ProfessorDisciplinasDto>> ObterTodosProfessoresComDisciplinas() {
-        List<ProfessorDisciplinasDto> professorList = professorService.ObterTodos();
+        List<ProfessorDisciplinasDto> professorList = professorService.ObterProfessoresDisciplinas();
         return ResponseEntity.ok(professorList);
     }
+
+    @GetMapping("/disciplinasalunos")
+    public ResponseEntity<List<ProfessorDisciplinasAlunosDto>> ObterTodosProfessoresDisciplinasComAlunos() {
+        List<ProfessorDisciplinasAlunosDto> professorList = professorService.ObterProfessoresDisciplinasAlunos();
+        return ResponseEntity.ok(professorList);
+    }
+
 
     @PostMapping
     public ResponseEntity<ProfessorDto> CadastrarNovoProfessor(@Valid @RequestBody ProfessorModel professorModel, BindingResult br) {
