@@ -89,7 +89,7 @@ public class AlunoService {
             alunoRepository.save(alunoModel);
             return modelMapper.map(alunoModel, AlunoDto.class);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("ERRO: Aluno já cadastrado!");
+            throw new DataIntegrityException("ERRO: Verificar atributos do aluno que são unicos");
         }
     }
 
@@ -108,7 +108,8 @@ public class AlunoService {
 
     @Transactional
     public void DeletarPorMatricula(int matricula) {
-        if (alunoRepository.existsByMatricula(matricula)) {
+        Optional<AlunoModel> alunoOptional = alunoRepository.findByMatricula(matricula);
+        if (alunoOptional != null) {
             alunoRepository.deleteByMatricula(matricula);
         } else {
             throw new DataIntegrityException("ERRO: Matrícula não encontrada! Matrícula: " + matricula);
@@ -121,6 +122,15 @@ public class AlunoService {
             alunoRepository.deleteByCpf(cpf);
         } else {
             throw new DataIntegrityException("ERRO: CPF não encontrada! CPF: " + cpf);
+        }
+    }
+
+    @Transactional
+    public void DeletarPorId(int id) {
+        if (alunoRepository.existsById(id)) {
+            alunoRepository.deleteById(id);
+        } else {
+            throw new DataIntegrityException("ERRO: Aluno na encontrado com id:" + id);
         }
     }
 }

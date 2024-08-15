@@ -1,11 +1,14 @@
 package br.edu.ifs.apiacademico.service;
 
+import br.edu.ifs.apiacademico.exceptions.ConstraintException;
 import br.edu.ifs.apiacademico.exceptions.DataIntegrityException;
 import br.edu.ifs.apiacademico.exceptions.ObjectNotFoundException;
 import br.edu.ifs.apiacademico.model.AlunoModel;
 import br.edu.ifs.apiacademico.model.DisciplinaModel;
+import br.edu.ifs.apiacademico.model.MatriculaModel;
 import br.edu.ifs.apiacademico.repository.DisciplinaRepository;
 import br.edu.ifs.apiacademico.rest.dto.DisciplinaDto;
+import br.edu.ifs.apiacademico.rest.dto.MatriculaDto;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +44,17 @@ public class DisciplinaService {
 
     @Transactional
     public DisciplinaDto CadastrarNovaDisciplina(DisciplinaModel disciplinaModel) {
+        if (disciplinaModel.getProfessor() == null) {
+            throw new ConstraintException("Professor não encontrado. Disciplina não pode ser cadastrada sem um professor associado.");
+        }
         try {
             disciplinaRepository.save(disciplinaModel);
             return modelMapper.map(disciplinaModel, DisciplinaDto.class);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("ERRO: Disciplina já cadastrado!");
+            throw new DataIntegrityException("ERRO: Disciplina verificar atributos necessários para o cadastramento da disciplina");
         }
     }
+
 
     @Transactional
     public void DeletarPorId(int id) {
@@ -95,4 +102,12 @@ public class DisciplinaService {
                 .map(disciplina -> modelMapper.map(disciplina, DisciplinaDto.class))
                 .collect(Collectors.toList());
     }
+
+    public List<DisciplinaDto> ListarDisciplinaByProfessorId(int professorId) {
+        List<DisciplinaModel> disciplinaList = disciplinaRepository.findByProfessorId(professorId);
+        return disciplinaList.stream()
+                .map(disciplina -> modelMapper.map(disciplina, DisciplinaDto.class))
+                .collect(Collectors.toList());
+    }
+
 }

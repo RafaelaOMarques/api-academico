@@ -3,6 +3,7 @@ import br.edu.ifs.apiacademico.exceptions.DataIntegrityException;
 import br.edu.ifs.apiacademico.exceptions.ObjectNotFoundException;
 import br.edu.ifs.apiacademico.model.ProfessorModel;
 import br.edu.ifs.apiacademico.repository.ProfessorRepository;
+import br.edu.ifs.apiacademico.rest.dto.ProfessorDisciplinasDto;
 import br.edu.ifs.apiacademico.rest.dto.ProfessorDto;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -23,10 +24,10 @@ public class ProfessorService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ProfessorDto> ObterTodos() {
+    public List<ProfessorDisciplinasDto> ObterTodos() {
         List<ProfessorModel> professorList = professorRepository.findAll();
         return professorList.stream()
-            .map(professor -> modelMapper.map(professor, ProfessorDto.class))
+            .map(professor -> modelMapper.map(professor, ProfessorDisciplinasDto.class))
             .collect(Collectors.toList());
     }
 
@@ -83,6 +84,7 @@ public class ProfessorService {
             .collect(Collectors.toList());
     }
 
+
     @Transactional
     public ProfessorDto CadastrarNovoProfessor(ProfessorModel professorModel) {
         try {
@@ -123,18 +125,6 @@ public class ProfessorService {
             throw new DataIntegrityException("ERRO: CPF não encontrada! CPF: " + cpf);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Transactional
     public ProfessorDto Salvar(ProfessorModel professorModel) {

@@ -8,7 +8,11 @@ import java.util.List;
 
 @Repository
 public interface TurmaRepository extends JpaRepository<TurmaModel, Integer> {
-    List<TurmaModel> findByProfessorId(int professorId);
+//    List<TurmaModel> findByProfessorId(int professorId);
 
     List<TurmaModel> findByDisciplinaId(int disciplinaId);
+
+//    List<TurmaModel> findByDisciplinaIdAndProfessorId(int disciplinaId, int professorId);
+
+//    List<TurmaModel> findByDisciplinaIdOrderByProfessorNomeAsc(int disciplinaId);
 }

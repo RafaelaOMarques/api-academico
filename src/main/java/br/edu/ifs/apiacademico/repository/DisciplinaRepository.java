@@ -1,6 +1,7 @@
 package br.edu.ifs.apiacademico.repository;
 
 import br.edu.ifs.apiacademico.model.DisciplinaModel;
+import br.edu.ifs.apiacademico.model.MatriculaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +28,6 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
 
     void deleteById(int id);
 
+    List<DisciplinaModel> findByProfessorId(int professorId);
 
 }

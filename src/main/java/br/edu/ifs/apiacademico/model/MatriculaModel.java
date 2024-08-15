@@ -1,5 +1,6 @@
 package br.edu.ifs.apiacademico.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,8 +13,16 @@ public class MatriculaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "idAluno", nullable = false, unique = true)
-    private int idAluno;
-    @Column(name = "idTurma", nullable = false, unique = true)
-    private int idTurma;
+
+    @ManyToOne
+    @JoinColumn(name = "id_aluno", nullable = false)
+    @JsonBackReference
+    private AlunoModel aluno;
+
+    @Column(name = "matricula", nullable = false, unique = true)
+    private int matricula;
+
+    @Column(name = "matricula_ativa", nullable = false)
+    private boolean matriculaAtiva;
+
 }
