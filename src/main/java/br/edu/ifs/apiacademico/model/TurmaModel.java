@@ -30,14 +30,6 @@ public class TurmaModel {
     @JsonBackReference
     private DisciplinaModel disciplina;
 
-//    @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<AlunoModel> alunos;
-
-//    @ManyToOne
-//    @JoinColumn(name = "id_professor", nullable = false)
-//    private ProfessorModel professor;
-
     @ManyToMany
     @JoinTable(
     name = "turma_aluno",
@@ -45,7 +37,5 @@ public class TurmaModel {
     inverseJoinColumns = @JoinColumn(name = "aluno_id")
     )
     private List<AlunoModel> alunos;
-//
-//    @ManyToMany(mappedBy = "alunos")
-//    private List<TurmaModel> turmas;
+
 }

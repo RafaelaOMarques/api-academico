@@ -14,8 +14,6 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
     List<DisciplinaModel> findAll();
     Optional<DisciplinaModel> findById(int id);
 
-//    Boolean existsById(int id);
-
     Optional<DisciplinaModel> findByNomeContaining(String nome);
 
     List<DisciplinaModel> findByOrderByNomeAsc();
@@ -26,9 +24,10 @@ public interface DisciplinaRepository extends JpaRepository<DisciplinaModel, Int
 
     List<DisciplinaModel> findByOrderByNumeroCreditosAsc();
 
-    void deleteById(int id);
 
     List<DisciplinaModel> findByProfessorId(int professorId);
-//    List<DisciplinaModel> findByAlunoId(int alunoId);
+
+
+    void deleteById(int id);
 
 }

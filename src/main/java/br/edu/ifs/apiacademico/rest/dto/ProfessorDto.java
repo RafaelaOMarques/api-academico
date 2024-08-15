@@ -24,6 +24,5 @@ public class ProfessorDto {
     private String email;
     private Date dataNascimento;
     private String celular;
-//    private List<DisciplinaModel> disciplinas;
 
 }

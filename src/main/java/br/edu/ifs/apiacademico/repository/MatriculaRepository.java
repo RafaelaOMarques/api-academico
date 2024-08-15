@@ -18,9 +18,13 @@ public interface MatriculaRepository extends JpaRepository<MatriculaModel, Integ
 
     Optional<MatriculaModel> findMatriculaModelByMatricula(Integer id);
 
-    void deleteById(int id);
 
     List<MatriculaModel> findByAlunoId(int alunoId);
+
+
+    void deleteById(int id);
+
+
 
     @Query("SELECT m FROM MatriculaModel m WHERE m.aluno.id = :idAluno")
     Optional<MatriculaModel> findByIdAluno(@Param("idAluno") int idAluno);

@@ -12,6 +12,4 @@ public class DisciplinaDto {
     private int id;
     private String nome;
     private int numeroCreditos;
-//    private int idProfessor;
-//    private String nomeProfessor;
 }

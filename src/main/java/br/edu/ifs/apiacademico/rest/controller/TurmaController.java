@@ -55,31 +55,12 @@ public class TurmaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(turmaDto);
     }
 
-//    @GetMapping("/professor/{professorId}")
-//    public ResponseEntity<List<TurmaDto>> ListarTurmasByProfessorId(@PathVariable("professorId") int professorId) {
-//        List<TurmaDto> turmaList = turmaService.ListarTurmasByProfessorId(professorId);
-//        return ResponseEntity.ok(turmaList);
-//    }
 
     @GetMapping("/disciplina/{disciplinaId}")
     public ResponseEntity<List<TurmaDto>> ListarTurmasByDisciplinasId(@PathVariable("disciplinaId") int disciplinaId) {
         List<TurmaDto> turmaList = turmaService.ListarTurmasByDisciplinasId(disciplinaId);
         return ResponseEntity.ok(turmaList);
     }
-
-//    @GetMapping("/disciplinaprofessores/{disciplinaId}")
-//    public ResponseEntity<List<TurmaDto>> ListarTurmasByDisciplinasIdOrdenadasPorProfessor(@PathVariable("disciplinaId") int disciplinaId) {
-//        List<TurmaDto> turmaList = turmaService.ListarTurmasByDisciplinasId(disciplinaId);
-//        return ResponseEntity.ok(turmaList);
-//    }
-
-//    @GetMapping("/disciplina/{disciplinaId}/{professorId}")
-//    public ResponseEntity<List<TurmaDto>> ListarTurmaPorDisciplinaEProfessor(@PathVariable("disciplinaId") int disciplinaId,
-//                                                                                @PathVariable("professorId") int professorId) {
-//        List<TurmaDto> turmaList = turmaService.ListarTurmaPorDisciplinaEProfessor(disciplinaId, professorId);
-//        return ResponseEntity.ok(turmaList);
-//    }
-
 
 }
 

@@ -126,6 +126,4 @@ public class AlunoController {
         List<AlunoDto> alunoDtoList = alunoService.ListarAlunosPorDataNascimentoDescrescente();
         return ResponseEntity.ok(alunoDtoList);
     }
-
-
 }

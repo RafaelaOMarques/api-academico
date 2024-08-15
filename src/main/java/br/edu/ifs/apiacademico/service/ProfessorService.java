@@ -30,12 +30,6 @@ public class ProfessorService {
             .collect(Collectors.toList());
     }
 
-//    public List<ProfessorDisciplinasAlunosDto> ObterProfessoresDisciplinasAlunos() {
-//        List<ProfessorModel> professorList = professorRepository.findAll();
-//        return professorList.stream()
-//                .map(professor -> modelMapper.map(professor, ProfessorDisciplinasAlunosDto.class))
-//                .collect(Collectors.toList());
-//    }
 
     public List<ProfessorDisciplinasAlunosDto> ObterProfessoresDisciplinasAlunos() {
         List<ProfessorModel> professorList = professorRepository.findAll();

@@ -28,10 +28,8 @@ public class MatriculaController {
     @Autowired
     private MatriculaService matriculaService;
 
-
     @Autowired
     private AlunoRepository alunoRepository;
-
 
     @GetMapping
     public ResponseEntity<List<MatriculaDto>> ObterTodasMatriculas() {
@@ -76,7 +74,6 @@ public class MatriculaController {
         MatriculaDto matriculaDto = matriculaService.AtualizarMatricula(id, matriculaModel);
         return ResponseEntity.ok(matriculaDto);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {

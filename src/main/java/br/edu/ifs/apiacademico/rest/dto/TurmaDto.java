@@ -15,9 +15,6 @@ import java.util.List;
 public class TurmaDto {
     private int id;
     private int turmaId;
-//    private Date dataInicio;
-//    private Date dataFim;
-//    private String nomeProfessor;
     private DisciplinaDto disciplina;
     private List<AlunoDto> alunos;
 

@@ -39,16 +39,8 @@ public class ProfessorModel {
     @Column(name = "matricula", nullable = false, unique = true)
     private int matricula;
 
-//    @OneToOne(mappedBy = "professor")
-//    private TurmaModel turmas;
-
-
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<DisciplinaModel> disciplinas;
-
-//
-//    @OneToMany(mappedBy = "professor")
-//    private List<TurmaModel> turmas;
 
 }

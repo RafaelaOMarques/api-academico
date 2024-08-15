@@ -48,8 +48,5 @@ public class AlunoModel {
     @JsonBackReference
     private TurmaModel turma;
 
-//    @ManyToMany(mappedBy = "alunos")
-//    private List<DisciplinaModel> disciplinas;
-
 
 }

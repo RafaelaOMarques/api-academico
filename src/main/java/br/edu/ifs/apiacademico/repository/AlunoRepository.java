@@ -39,7 +39,6 @@ public interface AlunoRepository extends JpaRepository<AlunoModel, Integer> {
 
     //DELETES
     Boolean existsByCpf(String cpf);
-//    void deleteByMatricula(int matricula);
     void deleteByCpf(String cpf);
 
 
