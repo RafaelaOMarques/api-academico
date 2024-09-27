@@ -84,17 +84,12 @@ public class TurmaService {
 
     @Transactional
     public void DeletarTurmaPorId(int id) {
-        Optional<TurmaModel> turmaOptional = turmaRepository.findById(id);
-
-        if (turmaOptional.isPresent()) {
-            TurmaModel turma = turmaOptional.get();
-
+        if (turmaRepository.existsById(id)) {
+            turmaRepository.deleteById(id);
         } else {
-            throw new IllegalArgumentException("Turma não encontrada com o ID: " + id);
+            throw new DataIntegrityException("ERRO: Turma não encontrada! Turma: " + id);
         }
     }
-
-
 
     public List<TurmaDto> ListarTurmasByDisciplinasId(int disciplinaId){
         List<TurmaModel> turmaList = turmaRepository.findByDisciplinaId(disciplinaId

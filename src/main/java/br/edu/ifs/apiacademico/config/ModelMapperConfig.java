@@ -1,4 +1,4 @@
-package br.edu.ifs.apiacademico.config.mapper;
+package br.edu.ifs.apiacademico.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

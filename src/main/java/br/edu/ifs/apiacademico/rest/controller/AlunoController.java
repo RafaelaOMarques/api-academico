@@ -7,6 +7,8 @@ import br.edu.ifs.apiacademico.rest.dto.AlunoDto;
 import br.edu.ifs.apiacademico.service.AlunoService;
 import br.edu.ifs.apiacademico.service.MatriculaService;
 import br.edu.ifs.apiacademico.util.ValidadorCpfUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +33,19 @@ public class AlunoController {
 
     //ENDPOINT /ALUNO
 
+    @Operation(summary = "Obter todos os alunos", description = "Retorna uma lista de alunos cadastrados")
+    @ApiResponse(responseCode = "200", description = "Sucesso ao buscar alunos")
     @GetMapping
     public ResponseEntity<List<AlunoDto>> ObterTodosAlunos() {
         List<AlunoDto> alunoDtoList = alunoService.ObterTodos();
         return ResponseEntity.ok(alunoDtoList);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> DeletarAlunoPorId(@PathVariable("id") int id) {
+        alunoService.DeletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
@@ -52,6 +63,22 @@ public class AlunoController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoDto);
     }
+
+//    @PutMapping
+//    public ResponseEntity<AlunoDto> AtualizarAluno(@Valid @RequestBody AlunoModel alunoModel, BindingResult br) {
+//        if (br.hasErrors()) {
+//            throw new ConstraintException(br.getAllErrors().get(0).getDefaultMessage());
+//        }
+//        try{
+//            ValidadorCpfUtil.validarCpf(alunoModel.getCpf());
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.badRequest().body(null);
+//        }
+//
+//        AlunoDto alunoDto = alunoService.CadastrarNovoAluno(alunoModel);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(alunoDto);
+//    }
 
 
     //ENDPOINT /ALUNO/NOMES

@@ -21,6 +21,7 @@ public class AlunoDto {
     private int id;
     private String nome;
     private String email;
+    private String cpf;
     private Date dataNascimento;
     private String celular;
     private String apelido;

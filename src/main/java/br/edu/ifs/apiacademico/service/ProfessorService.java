@@ -139,6 +139,14 @@ public class ProfessorService {
     }
 
     @Transactional
+    public void DeletarPorId(int id) {
+        if (professorRepository.existsById(id)) {
+            professorRepository.deleteById(id);
+        } else {
+            throw new DataIntegrityException("ERRO: Professor não encontrado com id:" + id);
+        }
+    }
+    @Transactional
     public void DeletarPorMatricula(int matricula) {
         if (professorRepository.existsByMatricula(matricula)) {
             professorRepository.deleteByMatricula(matricula);

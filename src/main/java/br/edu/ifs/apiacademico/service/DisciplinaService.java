@@ -44,9 +44,9 @@ public class DisciplinaService {
 
     @Transactional
     public DisciplinaDto CadastrarNovaDisciplina(DisciplinaModel disciplinaModel) {
-        if (disciplinaModel.getProfessor() == null) {
-            throw new ConstraintException("Professor não encontrado. Disciplina não pode ser cadastrada sem um professor associado.");
-        }
+//        if (disciplinaModel.getProfessor() == null) {
+//            throw new ConstraintException("Professor não encontrado. Disciplina não pode ser cadastrada sem um professor associado.");
+//        }
 
         try {
             disciplinaRepository.save(disciplinaModel);

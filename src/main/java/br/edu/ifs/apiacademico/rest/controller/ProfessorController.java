@@ -32,6 +32,12 @@ public class ProfessorController {
         return ResponseEntity.ok(professorList);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> DeletarProfessorPorId(@PathVariable("id") int id) {
+        professorService.DeletarPorId(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/disciplinasalunos")
     public ResponseEntity<List<ProfessorDisciplinasAlunosDto>> ObterTodosProfessoresDisciplinasComAlunos() {
         List<ProfessorDisciplinasAlunosDto> professorList = professorService.ObterProfessoresDisciplinasAlunos();

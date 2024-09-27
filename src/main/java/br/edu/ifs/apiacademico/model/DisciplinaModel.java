@@ -28,7 +28,7 @@ public class DisciplinaModel {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_professor", nullable = false)
+    @JoinColumn(name = "id_professor", nullable = true)
     @JsonBackReference
     private ProfessorModel professor;
 
