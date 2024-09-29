@@ -11,9 +11,9 @@ INSERT INTO PROFESSOR ( matricula, nome,  cpf, email, data_nascimento, celular) 
 INSERT INTO PROFESSOR ( matricula, nome,  cpf, email, data_nascimento, celular) VALUES( 202420003,'Alex Paulo', '938.209.410-53', 'alexpaulo@academico.ifs.edu.br', '1981-04-05', '(79)99922-9249');
 
 
-INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10001, 'TCC-II', 5, 2);
-INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10002, 'Interface Gráfica', 3, 2);
-INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10003, 'TE-II', 5, 1);
+INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10001, 'TCC-II', 5, 3);
+INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10002, 'Interface Gráfica', 3, 3);
+INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10003, 'TE-II', 5, 3);
 INSERT INTO DISCIPLINA ( disciplina, nome, numero_creditos, id_professor ) VALUES ( 10004, 'TE-I', 4, 3);
 
 
@@ -29,5 +29,5 @@ INSERT INTO TURMA ( turma, data_inicio, data_fim, id_disciplina ) VALUES ( 20001
 INSERT INTO TURMA ( turma, data_inicio, data_fim, id_disciplina ) VALUES ( 20002, '2025-03-01', '2025-06-30', 3);
 
 
-INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (1, 1),(1, 2),(1, 3), (1, 4),  (1, 5), (1, 6);
-INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (2, 3),(2, 2),(2, 5), (2, 6);
+INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6);
+INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (2, 5), (2, 4), (2, 6);
